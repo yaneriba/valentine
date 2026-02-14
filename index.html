@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Для Нат ❤️</title>
+
+<style>
+body {
+    margin: 0;
+    overflow: hidden;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #ff4e8b, #ff9a9e, #fad0c4);
+    text-align: center;
+    color: white;
+}
+
+.container {
+    position: relative;
+    z-index: 2;
+    margin-top: 15vh;
+}
+
+h1 {
+    font-size: 3.5em;
+    animation: glow 2s infinite alternate;
+}
+
+p {
+    font-size: 1.5em;
+    margin: 20px;
+}
+
+button {
+    padding: 15px 35px;
+    font-size: 18px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    background: white;
+    color: #ff4e8b;
+    font-weight: bold;
+    transition: 0.3s;
+    margin: 10px;
+}
+
+button:hover {
+    transform: scale(1.1);
+}
+
+@keyframes glow {
+    from { text-shadow: 0 0 10px #fff; }
+    to { text-shadow: 0 0 25px #ff0066; }
+}
+
+/* Сердечки */
+.heart {
+    position: absolute;
+    top: -10px;
+    font-size: 20px;
+    animation: fall linear infinite;
+}
+
+@keyframes fall {
+    to {
+        transform: translateY(110vh);
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>Нат ❤️</h1>
+    <p>Ты самое прекрасное, что случилось со мной.<br>
+    С тобой каждый день — как маленькое чудо ✨</p>
+
+    <button onclick="showLove()">Нажми сюда 💌</button>
+    <button onclick="toggleMusic()">🎵 Включить песню</button>
+</div>
+
+<audio id="bgMusic" loop>
+    <!-- ВСТАВЬ СЮДА СВОЙ MP3 ФАЙЛ -->
+    <source src="song.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+function showLove() {
+    alert("Нат, я люблю тебя больше, чем можно описать словами ❤️");
+}
+
+function toggleMusic() {
+    const music = document.getElementById("bgMusic");
+    if (music.paused) {
+        music.play();
+    } else {
+        music.pause();
+    }
+}
+
+// Падающие сердечки
+function createHeart() {
+    const heart = document.createElement("div");
+    heart.classList.add("heart");
+    heart.innerHTML = "❤️";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.fontSize = Math.random() * 20 + 15 + "px";
+    heart.style.animationDuration = Math.random() * 3 + 2 + "s";
+    document.body.appendChild(heart);
+
+    setTimeout(() => {
+        heart.remove();
+    }, 5000);
+}
+
+setInterval(createHeart, 200);
+</script>
+
+</body>
+</html>
