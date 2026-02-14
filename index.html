@@ -19,21 +19,24 @@ body {
     position: relative;
     z-index: 2;
     margin-top: 15vh;
+    padding: 0 20px;
+    animation: fadeIn 2s ease-in-out;
 }
 
 h1 {
-    font-size: 3.5em;
+    font-size: 3em;
     animation: glow 2s infinite alternate;
 }
 
 p {
-    font-size: 1.5em;
+    font-size: 1.3em;
     margin: 20px;
+    line-height: 1.6em;
 }
 
 button {
-    padding: 15px 35px;
-    font-size: 18px;
+    padding: 14px 30px;
+    font-size: 17px;
     border: none;
     border-radius: 30px;
     cursor: pointer;
@@ -41,7 +44,7 @@ button {
     color: #ff4e8b;
     font-weight: bold;
     transition: 0.3s;
-    margin: 10px;
+    margin: 8px;
 }
 
 button:hover {
@@ -50,7 +53,12 @@ button:hover {
 
 @keyframes glow {
     from { text-shadow: 0 0 10px #fff; }
-    to { text-shadow: 0 0 25px #ff0066; }
+    to { text-shadow: 0 0 30px #ff0066; }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 
 /* Сердечки */
@@ -62,9 +70,20 @@ button:hover {
 }
 
 @keyframes fall {
-    to {
-        transform: translateY(110vh);
-    }
+    to { transform: translateY(110vh); }
+}
+
+/* Скрытое письмо */
+#loveLetter {
+    display: none;
+    margin-top: 25px;
+    font-size: 1.4em;
+    animation: fadeIn 2s forwards;
+}
+
+@media (max-width: 600px) {
+    h1 { font-size: 2.2em; }
+    p { font-size: 1.1em; }
 }
 </style>
 </head>
@@ -73,20 +92,26 @@ button:hover {
 
 <div class="container">
     <h1>Нат ❤️</h1>
-    <p>Дякую, що ти з'явилась у моєму житті</p>
+    <p>Дякую, що ти з'явилась у моєму житті.<br>
+    З тобою кожен день стає теплішим і світлішим ✨</p>
 
-    <button onclick="showLove()">Натисни сюди 💌</button>
+    <button onclick="showLetter()">💌 Натисни</button>
     <button onclick="toggleMusic()">🎵 Ввімкни звук та натисни</button>
+
+    <div id="loveLetter">
+        Я кожен день засинаю з думками про тебе.<br>
+        Ти — моя радість, мій спокій і моє натхнення.<br><br>
+
+    </div>
 </div>
 
 <audio id="bgMusic" loop>
-    <!-- ВСТАВЬ СЮДА СВОЙ MP3 ФАЙЛ -->
     <source src="song.mp3" type="audio/mpeg">
 </audio>
 
 <script>
-function showLove() {
-    alert("Я кожен день засинаю з думками про тебе ❤️");
+function showLetter() {
+    document.getElementById("loveLetter").style.display = "block";
 }
 
 function toggleMusic() {
@@ -106,14 +131,12 @@ function createHeart() {
     heart.style.left = Math.random() * 100 + "vw";
     heart.style.fontSize = Math.random() * 20 + 15 + "px";
     heart.style.animationDuration = Math.random() * 3 + 2 + "s";
-    document.body.appendChild(heart);
 
-    setTimeout(() => {
-        heart.remove();
-    }, 5000);
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 5000);
 }
 
-setInterval(createHeart, 200);
+setInterval(createHeart, 400);
 </script>
 
 </body>
