@@ -1,108 +1,154 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="uk">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Для Нат ❤️</title>
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+
 <style>
+/* Основные стили */
 body {
     margin: 0;
     overflow: hidden;
-    font-family: 'Segoe UI', sans-serif;
-    background: linear-gradient(135deg, #ff4e8b, #ff9a9e, #fad0c4);
-    text-align: center;
-    color: white;
+    font-family: 'Nunito', sans-serif; /* Основной шрифт */
+    background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    color: #555;
 }
 
-.container {
+/* Эффект матового стекла */
+.glass-card {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    max-width: 90%;
+    width: 500px;
+    text-align: center;
     position: relative;
-    z-index: 2;
-    margin-top: 15vh;
-    padding: 0 20px;
-    animation: fadeIn 2s ease-in-out;
+    z-index: 10;
+    animation: zoomIn 1s ease-out;
 }
 
 h1 {
-    font-size: 3em;
-    animation: glow 2s infinite alternate;
+    font-family: 'Great Vibes', cursive; /* Рукописный шрифт */
+    font-size: 4em;
+    color: #ff4e8b;
+    margin: 0 0 10px 0;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+    animation: float 3s ease-in-out infinite;
 }
 
 p {
-    font-size: 1.3em;
-    margin: 20px;
-    line-height: 1.6em;
+    font-size: 1.2em;
+    line-height: 1.6;
+    color: #4a4a4a;
+    margin-bottom: 30px;
+}
+
+/* Кнопки */
+.btn-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
 }
 
 button {
-    padding: 14px 30px;
-    font-size: 17px;
+    padding: 12px 35px;
+    font-size: 16px;
     border: none;
-    border-radius: 30px;
+    border-radius: 50px;
     cursor: pointer;
-    background: white;
-    color: #ff4e8b;
+    background: linear-gradient(45deg, #ff4e8b, #ff758c);
+    color: white;
     font-weight: bold;
-    transition: 0.3s;
-    margin: 8px;
+    box-shadow: 0 4px 15px rgba(255, 78, 139, 0.4);
+    transition: all 0.3s ease;
+    font-family: 'Nunito', sans-serif;
+    min-width: 200px;
 }
 
 button:hover {
-    transform: scale(1.1);
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 6px 20px rgba(255, 78, 139, 0.6);
 }
 
-@keyframes glow {
-    from { text-shadow: 0 0 10px #fff; }
-    to { text-shadow: 0 0 30px #ff0066; }
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-
-/* Сердечки */
-.heart {
-    position: absolute;
-    top: -10px;
-    font-size: 20px;
-    animation: fall linear infinite;
-}
-
-@keyframes fall {
-    to { transform: translateY(110vh); }
+button:active {
+    transform: translateY(1px);
 }
 
 /* Скрытое письмо */
 #loveLetter {
-    display: none;
-    margin-top: 25px;
-    font-size: 1.4em;
-    animation: fadeIn 2s forwards;
+    display: none; /* Скрыто по умолчанию */
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px dashed #ff4e8b;
+    font-size: 1.3em;
+    color: #884a65;
+    font-style: italic;
+    min-height: 80px; /* Чтобы не прыгало при печати */
 }
 
+/* Анимации */
+@keyframes zoomIn {
+    from { opacity: 0; transform: scale(0.8); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+}
+
+/* Сердечки на фоне */
+.heart {
+    position: absolute;
+    top: -20px;
+    color: #ff4e8b;
+    opacity: 0.6;
+    user-select: none;
+    z-index: 1;
+    animation: fall linear infinite;
+}
+
+@keyframes fall {
+    to { transform: translateY(105vh) rotate(360deg); }
+}
+
+/* Адаптив для телефонов */
 @media (max-width: 600px) {
-    h1 { font-size: 2.2em; }
-    p { font-size: 1.1em; }
+    h1 { font-size: 3em; }
+    .glass-card { padding: 25px; }
+    button { width: 100%; }
 }
 </style>
 </head>
 
 <body>
 
-<div class="container">
+<div class="glass-card">
     <h1>Нат ❤️</h1>
     <p>Дякую, що ти з'явилась у моєму житті.<br>
     З тобою кожен день стає теплішим і світлішим ✨</p>
 
-    <button onclick="showLetter()">💌 Натисни</button>
-    <button onclick="toggleMusic()">🎵 Ввімкни звук та натисни</button>
-
-    <div id="loveLetter">
-        Я кожен день засинаю з думками про тебе.<br>
-        Ти — моя радість, мій спокій і моє натхнення.<br><br>
-
+    <div class="btn-container">
+        <button onclick="toggleMusic()">🎵 Музика</button>
+        <button onclick="typeWriter()">💌 Відкрити лист</button>
     </div>
+
+    <div id="loveLetter"></div>
 </div>
 
 <audio id="bgMusic" loop>
@@ -110,33 +156,61 @@ button:hover {
 </audio>
 
 <script>
-function showLetter() {
-    document.getElementById("loveLetter").style.display = "block";
-}
+let musicPlaying = false;
+const music = document.getElementById("bgMusic");
 
 function toggleMusic() {
-    const music = document.getElementById("bgMusic");
     if (music.paused) {
-        music.play();
+        music.play().catch(e => alert("Спочатку натисніть на сторінку, щоб дозволити аудіо!"));
+        musicPlaying = true;
     } else {
         music.pause();
+        musicPlaying = false;
     }
 }
 
-// Падающие сердечки
+// Текст письма для эффекта печатания
+const letterText = "Я кожен день засинаю з думками про тебе. Ти — моя радість, мій спокій і моє натхнення. Кожна мить з тобою — безцінна... ❤️";
+const letterContainer = document.getElementById("loveLetter");
+let i = 0;
+
+function typeWriter() {
+    // Показываем контейнер, скрываем кнопку (опционально)
+    letterContainer.style.display = "block";
+
+    // Очищаем, если вдруг нажали дважды
+    if (i === 0) {
+        letterContainer.innerHTML = "";
+        type();
+    }
+}
+
+function type() {
+    if (i < letterText.length) {
+        letterContainer.innerHTML += letterText.charAt(i);
+        i++;
+        setTimeout(type, 50); // Скорость печати (чем меньше, тем быстрее)
+    }
+}
+
+// Генерация сердечек
 function createHeart() {
     const heart = document.createElement("div");
     heart.classList.add("heart");
-    heart.innerHTML = "❤️";
+    heart.innerHTML = Math.random() > 0.5 ? "❤️" : "🌸"; // Иногда цветочки
     heart.style.left = Math.random() * 100 + "vw";
-    heart.style.fontSize = Math.random() * 20 + 15 + "px";
-    heart.style.animationDuration = Math.random() * 3 + 2 + "s";
+    heart.style.fontSize = Math.random() * 20 + 10 + "px";
+    heart.style.animationDuration = Math.random() * 3 + 3 + "s";
+    heart.style.opacity = Math.random() * 0.5 + 0.3;
 
     document.body.appendChild(heart);
-    setTimeout(() => heart.remove(), 5000);
+
+    setTimeout(() => {
+        heart.remove();
+    }, 6000);
 }
 
-setInterval(createHeart, 400);
+setInterval(createHeart, 300);
 </script>
 
 </body>
