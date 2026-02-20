@@ -14,7 +14,7 @@
 body {
     margin: 0;
     overflow: hidden;
-    font-family: 'Nunito', sans-serif; /* Основной шрифт */
+    font-family: 'Nunito', sans-serif;
     background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%);
     display: flex;
     justify-content: center;
@@ -30,19 +30,19 @@ body {
     -webkit-backdrop-filter: blur(10px);
     border-radius: 20px;
     padding: 40px;
-    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15), 0 0 20px rgba(255, 78, 139, 0.2);
     border: 1px solid rgba(255, 255, 255, 0.18);
     max-width: 90%;
     width: 500px;
     text-align: center;
     position: relative;
     z-index: 10;
-    animation: zoomIn 1s ease-out;
+    animation: zoomIn 1s ease-out, glow 4s infinite alternate;
 }
 
 h1 {
-    font-family: 'Great Vibes', cursive; /* Рукописный шрифт */
-    font-size: 4em;
+    font-family: 'Great Vibes', cursive;
+    font-size: 4.5em;
     color: #ff4e8b;
     margin: 0 0 10px 0;
     text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
@@ -90,14 +90,22 @@ button:active {
 
 /* Скрытое письмо */
 #loveLetter {
-    display: none; /* Скрыто по умолчанию */
+    display: none;
     margin-top: 30px;
     padding-top: 20px;
     border-top: 1px dashed #ff4e8b;
     font-size: 1.3em;
     color: #884a65;
     font-style: italic;
-    min-height: 80px; /* Чтобы не прыгало при печати */
+    min-height: 100px; /* Увеличено, чтобы текст точно помещался без скачков */
+    text-align: left; /* Текст письма выглядит лучше с выравниванием по левому краю или по центру */
+}
+
+.cursor {
+    display: inline-block;
+    width: 2px;
+    background-color: #884a65;
+    animation: blink 0.8s step-end infinite;
 }
 
 /* Анимации */
@@ -107,30 +115,39 @@ button:active {
 }
 
 @keyframes float {
-    0% { transform: translateY(0px); }
+    0%, 100% { transform: translateY(0px); }
     50% { transform: translateY(-10px); }
-    100% { transform: translateY(0px); }
 }
 
-/* Сердечки на фоне */
+@keyframes glow {
+    from { box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15), 0 0 10px rgba(255, 78, 139, 0.1); }
+    to { box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15), 0 0 25px rgba(255, 78, 139, 0.4); }
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+/* Элементы на фоне (сердечки и блестки) */
 .heart {
     position: absolute;
-    top: -20px;
-    color: #ff4e8b;
+    top: -30px;
     opacity: 0.6;
     user-select: none;
     z-index: 1;
+    pointer-events: none; /* Важно: чтобы они не блокировали нажатие на кнопки */
     animation: fall linear infinite;
 }
 
 @keyframes fall {
-    to { transform: translateY(105vh) rotate(360deg); }
+    to { transform: translateY(110vh) rotate(360deg); }
 }
 
 /* Адаптив для телефонов */
 @media (max-width: 600px) {
-    h1 { font-size: 3em; }
-    .glass-card { padding: 25px; }
+    h1 { font-size: 3.5em; }
+    .glass-card { padding: 25px; width: 85%; }
     button { width: 100%; }
 }
 </style>
@@ -144,8 +161,8 @@ button:active {
     З тобою кожен день стає теплішим і світлішим ✨</p>
 
     <div class="btn-container">
-        <button onclick="toggleMusic()">🎵 Музика</button>
-        <button onclick="typeWriter()">💌 Відкрити лист</button>
+        <button id="musicBtn" onclick="toggleMusic()">🎵 Увімкнути музику</button>
+        <button id="letterBtn" onclick="typeWriter()">💌 Відкрити лист</button>
     </div>
 
     <div id="loveLetter"></div>
@@ -156,61 +173,86 @@ button:active {
 </audio>
 
 <script>
-let musicPlaying = false;
 const music = document.getElementById("bgMusic");
+const musicBtn = document.getElementById("musicBtn");
+const letterBtn = document.getElementById("letterBtn");
+const letterContainer = document.getElementById("loveLetter");
 
+// Текст письма
+const letterText = "Я кожен день засинаю з думками про тебе. Ти — моя радість, мій спокій і моє натхнення. Кожна мить з тобою — безцінна... ❤️";
+let i = 0;
+let isTyping = false;
+
+// Управление музыкой
 function toggleMusic() {
     if (music.paused) {
-        music.play().catch(e => alert("Спочатку натисніть на сторінку, щоб дозволити аудіо!"));
-        musicPlaying = true;
+        music.play().then(() => {
+            musicBtn.innerHTML = "⏸ Вимкнути музику";
+            musicBtn.style.background = "linear-gradient(45deg, #a18cd1 0%, #fbc2eb 100%)"; // Меняем цвет кнопки при игре
+        }).catch(e => {
+            alert("Будь ласка, спочатку клікніть будь-де на сторінці, щоб дозволити аудіо!");
+        });
     } else {
         music.pause();
-        musicPlaying = false;
+        musicBtn.innerHTML = "🎵 Увімкнути музику";
+        musicBtn.style.background = "linear-gradient(45deg, #ff4e8b, #ff758c)"; // Возвращаем цвет
     }
 }
 
-// Текст письма для эффекта печатания
-const letterText = "Я кожен день засинаю з думками про тебе. Ти — моя радість, мій спокій і моє натхнення. Кожна мить з тобою — безцінна... ❤️";
-const letterContainer = document.getElementById("loveLetter");
-let i = 0;
-
+// Эффект печатания
 function typeWriter() {
-    // Показываем контейнер, скрываем кнопку (опционально)
-    letterContainer.style.display = "block";
+    if (!isTyping) {
+        isTyping = true;
 
-    // Очищаем, если вдруг нажали дважды
-    if (i === 0) {
-        letterContainer.innerHTML = "";
+        // Прячем кнопку плавно
+        letterBtn.style.display = "none";
+
+        // Показываем контейнер
+        letterContainer.style.display = "block";
+        letterContainer.innerHTML = '<span class="cursor"></span>';
+
         type();
     }
 }
 
 function type() {
     if (i < letterText.length) {
-        letterContainer.innerHTML += letterText.charAt(i);
+        // Добавляем по одной букве перед курсором
+        letterContainer.innerHTML = letterText.substring(0, i + 1) + '<span class="cursor"></span>';
         i++;
-        setTimeout(type, 50); // Скорость печати (чем меньше, тем быстрее)
+        // Небольшая случайность в скорости печати для реалистичности
+        let typeSpeed = Math.random() * 40 + 30;
+        setTimeout(type, typeSpeed);
+    } else {
+        // Оставляем только текст в конце (или можно оставить мигающий курсор)
+        letterContainer.innerHTML = letterText;
     }
 }
 
-// Генерация сердечек
-function createHeart() {
-    const heart = document.createElement("div");
-    heart.classList.add("heart");
-    heart.innerHTML = Math.random() > 0.5 ? "❤️" : "🌸"; // Иногда цветочки
-    heart.style.left = Math.random() * 100 + "vw";
-    heart.style.fontSize = Math.random() * 20 + 10 + "px";
-    heart.style.animationDuration = Math.random() * 3 + 3 + "s";
-    heart.style.opacity = Math.random() * 0.5 + 0.3;
+// Генерация падающих элементов
+const emojis = ["❤️", "🌸", "💖", "✨", "💕"];
 
-    document.body.appendChild(heart);
+function createParticle() {
+    const particle = document.createElement("div");
+    particle.classList.add("heart");
+
+    // Случайный эмодзи из массива
+    particle.innerHTML = emojis[Math.floor(Math.random() * emojis.length)];
+
+    particle.style.left = Math.random() * 100 + "vw";
+    particle.style.fontSize = Math.random() * 15 + 10 + "px";
+    particle.style.animationDuration = Math.random() * 3 + 4 + "s"; // Немного замедлил падение
+    particle.style.opacity = Math.random() * 0.5 + 0.3;
+
+    document.body.appendChild(particle);
 
     setTimeout(() => {
-        heart.remove();
-    }, 6000);
+        particle.remove();
+    }, 7000);
 }
 
-setInterval(createHeart, 300);
+// Создаем частицы каждые 300мс
+setInterval(createParticle, 300);
 </script>
 
 </body>
